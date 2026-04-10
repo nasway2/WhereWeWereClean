@@ -1,4 +1,4 @@
-name: Build Android APK
+name: Build Mobile Apps
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  build-android:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -29,17 +29,48 @@ jobs:
       - name: Install dependencies
         run: npm install --legacy-peer-deps
 
-      - name: Prebuild
-        run: npx expo prebuild
+      - name: Prebuild Android
+        run: npx expo prebuild --platform android
 
-      - name: Build APK
+      - name: Build Android APK
         run: |
           cd android
           chmod +x gradlew
           ./gradlew assembleRelease
 
-      - name: Upload APK
+      - name: Upload Android APK
         uses: actions/upload-artifact@v4
         with:
-          name: app-release
+          name: android-app-release
           path: android/app/build/outputs/apk/release/*.apk
+
+  build-ios:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Setup Expo
+        run: npm install -g expo-cli eas-cli
+
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps
+
+      - name: Prebuild iOS
+        run: npx expo prebuild --platform ios
+
+      - name: Build iOS App (Simulator)
+        run: |
+          cd ios
+          xcodebuild -workspace WhereWeWereClean.xcworkspace -scheme WhereWeWereClean -configuration Release -sdk iphonesimulator -arch x86_64 build
+
+      - name: Upload iOS App
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-app-simulator
+          path: ios/build/Release-iphonesimulator/*.app
