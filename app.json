@@ -1,0 +1,23 @@
+{
+  "expo": {
+    "name": "WhereWeWereClean",
+    "slug": "WhereWeWereClean",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "package": "com.nasway.wherewewereclean"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "39863c20-da5b-41a2-9eef-0bb32e6e47de"
+      }
+    }
+  }
+}
