@@ -18,6 +18,10 @@
       "eas": {
         "projectId": "39863c20-da5b-41a2-9eef-0bb32e6e47de"
       }
-    }
+    },
+    "plugins": [
+      "@react-native-firebase/app",
+      "@react-native-firebase/auth"
+    ]
   }
 }
