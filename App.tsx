@@ -8,7 +8,7 @@ import {
   ActivityIndicator,
   StyleSheet,
 } from 'react-native';
-import { auth, firestore } from './firebaseConfig';
+import { auth } from './firebaseConfig';
 import MapWithSearch from './components/MapWithSearch';
 
 function LoginScreen({ onLogin }: { onLogin: () => void }) {
@@ -60,7 +60,6 @@ export default function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Подписка на изменения состояния авторизации
     const unsubscribe = auth().onAuthStateChanged((user) => {
       setUser(user);
       setLoading(false);

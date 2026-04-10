@@ -10,9 +10,8 @@ import {
   Button
 } from 'react-native';
 import MapView, { Marker, LongPressEvent } from 'react-native-maps';
-import { firestore } from '../firebaseConfig';
+import { firestore, auth } from '../firebaseConfig';
 import CitySearchWebView from './CitySearchWebView';
-import auth from '@react-native-firebase/auth';
 
 interface Place {
   id: string;
@@ -35,7 +34,7 @@ export default function MapWithSearch() {
   const mapRef = useRef<MapView>(null);
   const roomId = 'main_room';
 
-  // Загрузка мест из Firebase
+  // Загрузка мест из Firestore
   useEffect(() => {
     const unsubscribe = firestore()
       .collection('places')
@@ -50,7 +49,6 @@ export default function MapWithSearch() {
     return unsubscribe;
   }, []);
 
-  // Выбор города из поиска
   const handleCitySelect = (city: { name: string; lat: number; lng: number; address: string }) => {
     mapRef.current?.animateToRegion({
       latitude: city.lat,
@@ -77,7 +75,6 @@ export default function MapWithSearch() {
     );
   };
 
-  // Добавление места
   const savePlace = async () => {
     if (!title.trim()) {
       Alert.alert('Ошибка', 'Введите название места');
@@ -105,7 +102,6 @@ export default function MapWithSearch() {
     }
   };
 
-  // Удаление места
   const deletePlace = async (place: Place) => {
     Alert.alert('Удалить место?', place.title, [
       { text: 'Отмена', style: 'cancel' },
